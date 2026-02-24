@@ -1,0 +1,11 @@
+export type V3 = [number, number, number];
+export type Face = { id: string; loop: V3[]; normal: V3; }; 
+export type Solid = { id: string; faces: Face[]; vertices: V3[]; triangles: V3[]; transform: number[]; };
+export type Doc = { solids: Solid[]; unit: 'mm' | 'in'; selection?: string };
+export const id = () => Math.random().toString(36).slice(2, 9);
+export const sub = (a:V3,b:V3):V3=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+export const cross = (a:V3,b:V3):V3=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+export const dot = (a:V3,b:V3)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+export const len = (a:V3)=>Math.hypot(...a);
+export const norm = (a:V3):V3=>{const l=len(a)||1;return[a[0]/l,a[1]/l,a[2]/l];};
+export const area2D=(loop:V3[])=>Math.abs(loop.reduce((s,p,i)=>{const q=loop[(i+1)%loop.length];return s+p[0]*q[1]-q[0]*p[1]},0))/2;
